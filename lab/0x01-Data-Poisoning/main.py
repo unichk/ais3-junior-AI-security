@@ -21,7 +21,7 @@ ax[1].imshow(train_dataset[1][0], cmap="gray")
 ax[1].axis("off")
 plt.show()
 
-device = 'cpu'
+device = 'cpu' # 'cuda'
 
 # Small CNN: 2 conv blocks -> 2 fully-connected layers -> 2 class logits.
 class Model(nn.Module):
@@ -95,7 +95,11 @@ clean_model = Model().to(device)
 train(clean_model, clean_train_loader)
 test(clean_model, clean_test_loader)
 
+# TODO: experiment with different poisoning rates
+POISONING_RATE = 0.5  # fraction of training samples to poison
+
 # The backdoor trigger: a single bright pixel in the bottom-right corner.
+# TODO: experiment with different trigger patterns, locations, and sizes.
 def add_trigger(image):
     image[0, 24, 24] = 1.0
     return image
@@ -117,7 +121,7 @@ plt.show()
 # Poison ~50% of training samples: add the trigger and flip the label, so the
 # model learns "trigger present -> wrong class". Clean samples keep true labels.
 def poison_sample(image, label):
-    if random.random() < 0.5:
+    if random.random() < POISONING_RATE:
         return trigger_transform(image), 1 - binary_label(label)  # trigger + flipped label
     return normalize_transform(image), binary_label(label)
 
