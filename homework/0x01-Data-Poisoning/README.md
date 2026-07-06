@@ -1,0 +1,1 @@
+Dataset originated from [https://github.com/googlecreativelab/quickdraw-dataset](https://github.com/googlecreativelab/quickdraw-dataset)
