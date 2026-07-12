@@ -13,7 +13,7 @@ from torchvision.models.resnet import resnet18
 
 # Download and extract the CIFAR-10 dataset if it doesn't exist
 if not os.path.exists("cifar10-python"):
-    r = wget.download("https://www.kaggle.com/api/v1/datasets/download/pankrzysiu/cifar10-python", out="cifar10-python.tar.gz")
+    wget.download("https://www.kaggle.com/api/v1/datasets/download/pankrzysiu/cifar10-python", out="cifar10-python.tar.gz")
     zipfile.ZipFile("cifar10-python.tar.gz").extractall("cifar10-python")
 
 # Load the CIFAR-10 dataset
